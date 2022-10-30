@@ -1,4 +1,5 @@
 import ClientRoute from "./ClientRoute";
+import FindRoute from "./FindRoute";
 
 export default class Route{
 
@@ -6,11 +7,13 @@ export default class Route{
         this.app = app;
         
         this.clientRoute = new ClientRoute(this.app);
+        this.findRoute = new FindRoute(this.app);
     }
 
     router(){
         this.home();
         this.clientRoute.init();
+        this.findRoute.init();
     }
 
     home(){

@@ -13,9 +13,8 @@ export default class ClientRoute{
     init(){
         this.insert();
         this.update();
+        this.delete();
     }
-
-    async getClient(client){}
 
     async insert(){
 
@@ -64,7 +63,7 @@ export default class ClientRoute{
                 bairro,
                 email,
                 cidade,
-                datadenascimento
+                new Date(datadenascimento)
             );
 
             if (this.connectDatabase() == null) return res.status(500).send("Cannot complete your request. Try again later.")
@@ -153,6 +152,69 @@ export default class ClientRoute{
                 return res.status(500).send("Cannot complete your request. Try again later.")
             }
         });
+    }
+
+    async delete(){
+        this.app.delete("/client", async (req, res) => {
+
+            const {
+                nome,
+                cpf,
+                estadocivil,
+                pai,
+                mae,
+                conjuge,
+                rg,
+                salario,
+                especie,
+                titulodeeleitor,
+                sexo,
+                celular,
+                cep,
+                endereco,
+                complemento,
+                numero,
+                bairro,
+                email,
+                cidade,
+                datadenascimento
+            } = req.body;
+
+            this.user = new User(
+                nome,
+                cpf,
+                estadocivil,
+                pai,
+                mae,
+                conjuge,
+                rg,
+                salario,
+                especie,
+                titulodeeleitor,
+                sexo,
+                celular,
+                cep,
+                endereco,
+                complemento,
+                numero,
+                bairro,
+                email,
+                cidade,
+                datadenascimento
+            );
+            
+            if (this.connectDatabase() == null) return res.status(500).send("Cannot complete your request. Try again later.")
+
+            try {
+                    let rowsAffected = await this.database.delete(this.user);
+                    if(rowsAffected == 0) res.status(500).send("Cannot complete your request. Try again.");
+                    return res.send(rowsAffected.toString() + " rows affected.")
+            } catch (error) {
+                console.log("An error ocurred trying to delete the user.");
+                console.log(error);
+                return res.status(500).send("Cannot complete your request. Try again.");
+            }
+        })
     }
 
     async connectDatabase(){

@@ -1,4 +1,4 @@
-import { DataTypes, Sequelize } from "sequelize";
+import { DataTypes, Sequelize, Op } from "sequelize";
 import Usuario from "../models";
 
 export default class Database{
@@ -113,7 +113,7 @@ export default class Database{
                     allowNull: true
                 },
                 datadenascimento: {
-                    type: DataTypes.STRING,
+                    type: DataTypes.DATEONLY,
                     allowNull: true
                 },
             });
@@ -183,6 +183,66 @@ export default class Database{
             return affectedRows;
         } catch (error) {
             console.log("An error ocurred updating the user.");
+            console.log(error);
+            return null;
+        }
+    }
+
+    async delete(usuario){
+        try {
+            return await this.model.destroy({
+                where: {
+                    nome: usuario.nome,
+                    cpf: usuario.cpf,
+                    rg: usuario.rg
+                }
+            });
+        } catch (error) {
+            console.log("An error ocurred trying to delete the user.");
+            console.log(error);
+        }
+    }
+
+    async findById(id){
+        try {
+            let foundClient =  await this.model.findByPk(id);
+            console.log(foundClient);
+            return foundClient;
+        } catch (error) {
+            console.log("An error ocurred finding the user by id");
+            console.log(error);
+            return null;
+        }
+    }
+
+    async findByGender(gender){
+        try {
+            return await this.model.findAll({
+                where: {
+                    sexo: gender
+                }
+            });
+        } catch (error) {
+            console.log("An error ocurred when sarching for gender.");
+            console.log(error);
+            return null;
+        }
+    }
+
+    async findByBirthday(initDate, finalDate){
+        try {
+            console.log(initDate);
+            console.log(finalDate);
+            let foundClients = await this.model.findAll({
+                where: {
+                    datadenascimento: {
+                        [Op.between]: [initDate, finalDate]
+                    }
+                }
+            });
+            return foundClients;
+        } catch (error) {
+            console.log("An error ocurred search by birthday");
             console.log(error);
             return null;
         }
