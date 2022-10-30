@@ -12,6 +12,7 @@ export default class FindRoute{
         this.findById();
         this.findByGender();
         this.findByBirthday();
+        this.find();
     }
 
     async findById(){
@@ -88,6 +89,52 @@ export default class FindRoute{
                 return res.status(500).send("Cannot complete your request. Try again later.") 
             }
         });
+    }
+
+    async find(){
+        this.app.get("/find", async (req, res) => {
+            
+            const method = req.body.method;
+
+            if (method !== "gender" && method !== "city" && method !== "species") return res.status(401).send("Method not available. Available methods:\n gender, city, species")
+
+            if (method === "gender") await this.totalByGender(res);
+
+            if (method === "city") await this.totalByCity(res);
+
+            if (method === "species") await this.totalBySpecies(res);
+
+        });
+    }
+
+    async totalByGender(res){
+
+        let answer = await this.database.totalByGender();
+        
+        // if (answer.rows == 0 || answer.salary == 0) return res.status(500).send("Cannot complete your request. Try again.");
+
+        return res.send(answer);
+
+    }
+
+    async totalByCity(res){
+
+        let answer = await this.database.totalByCity();
+        
+        // if (answer.rows == 0 || answer.salary == 0) return res.status(500).send("Cannot complete your request. Try again.");
+
+        return res.send(answer);
+
+    }
+
+    async totalBySpecies(res){
+        
+        let answer = await this.database.totalBySpecies();
+        
+        // if (answer.rows == 0 || answer.salary == 0) return res.status(500).send("Cannot complete your request. Try again.");
+
+        return res.send(answer);
+
     }
 
     async connectDatabase(){

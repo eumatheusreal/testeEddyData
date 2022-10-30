@@ -20,6 +20,8 @@ export default class ClientRoute{
 
         this.app.post("/client", async (req, res) => {
 
+            let salary = 0;
+
             const {
                 nome,
                 cpf,
@@ -43,32 +45,36 @@ export default class ClientRoute{
                 datadenascimento
             } = req.body;
 
-            this.user = new User(
-                nome,
-                cpf,
-                estadocivil,
-                pai,
-                mae,
-                conjuge,
-                rg,
-                salario,
-                especie,
-                titulodeeleitor,
-                sexo,
-                celular,
-                cep,
-                endereco,
-                complemento,
-                numero,
-                bairro,
-                email,
-                cidade,
-                new Date(datadenascimento)
-            );
 
             if (this.connectDatabase() == null) return res.status(500).send("Cannot complete your request. Try again later.")
 
             try {
+
+                salary = parseFloat(salario);
+                
+                this.user = new User(
+                    nome,
+                    cpf,
+                    estadocivil,
+                    pai,
+                    mae,
+                    conjuge,
+                    rg,
+                    salary,
+                    especie,
+                    titulodeeleitor,
+                    sexo,
+                    celular,
+                    cep,
+                    endereco,
+                    complemento,
+                    numero,
+                    bairro,
+                    email,
+                    cidade,
+                    new Date(datadenascimento)
+                );
+
                 let savedUser = await this.database.save(this.user);
                 return res.send(savedUser);
             } catch (error) {
@@ -82,6 +88,8 @@ export default class ClientRoute{
     async update(){
         this.app.put("/client", async (req, res) => {
 
+            let salary = 0;
+
             const {
                 nome,
                 cpf,
@@ -105,40 +113,37 @@ export default class ClientRoute{
                 datadenascimento
             } = req.body;
 
-            this.user = new User(
-                nome,
-                cpf,
-                estadocivil,
-                pai,
-                mae,
-                conjuge,
-                rg,
-                salario,
-                especie,
-                titulodeeleitor,
-                sexo,
-                celular,
-                cep,
-                endereco,
-                complemento,
-                numero,
-                bairro,
-                email,
-                cidade,
-                datadenascimento
-            );
+            
+            
             
             if (this.connectDatabase() == null) return res.status(500).send("Cannot complete your request. Try again later.")
 
             try {
-                // let savedUser = await this.database.getInstance(this.user);
                 
-                // if (savedUser == null) return res.status(500).send("Cannot complete your request. Try again later.") 
+                salary = parseFloat(salario);
                 
-                // let userJson = savedUser.toJSON();
-                // if (userJson == null) return res.status(500).send("Cannot complete your request. Try again later.") 
-
-                // console.log(userJson);
+                this.user = new User(
+                    nome,
+                    cpf,
+                    estadocivil,
+                    pai,
+                    mae,
+                    conjuge,
+                    rg,
+                    salary,
+                    especie,
+                    titulodeeleitor,
+                    sexo,
+                    celular,
+                    cep,
+                    endereco,
+                    complemento,
+                    numero,
+                    bairro,
+                    email,
+                    cidade,
+                    new Date(datadenascimento)
+                );
 
                 let updatedRows = await this.database.update(this.user);
                 
@@ -157,6 +162,8 @@ export default class ClientRoute{
     async delete(){
         this.app.delete("/client", async (req, res) => {
 
+            let salary = 0;
+
             const {
                 nome,
                 cpf,
@@ -180,35 +187,41 @@ export default class ClientRoute{
                 datadenascimento
             } = req.body;
 
-            this.user = new User(
-                nome,
-                cpf,
-                estadocivil,
-                pai,
-                mae,
-                conjuge,
-                rg,
-                salario,
-                especie,
-                titulodeeleitor,
-                sexo,
-                celular,
-                cep,
-                endereco,
-                complemento,
-                numero,
-                bairro,
-                email,
-                cidade,
-                datadenascimento
-            );
+            
             
             if (this.connectDatabase() == null) return res.status(500).send("Cannot complete your request. Try again later.")
 
             try {
-                    let rowsAffected = await this.database.delete(this.user);
-                    if(rowsAffected == 0) res.status(500).send("Cannot complete your request. Try again.");
-                    return res.send(rowsAffected.toString() + " rows affected.")
+
+                salary = parseFloat(salario);
+                
+                this.user = new User(
+                    nome,
+                    cpf,
+                    estadocivil,
+                    pai,
+                    mae,
+                    conjuge,
+                    rg,
+                    salary,
+                    especie,
+                    titulodeeleitor,
+                    sexo,
+                    celular,
+                    cep,
+                    endereco,
+                    complemento,
+                    numero,
+                    bairro,
+                    email,
+                    cidade,
+                    new Date(datadenascimento)
+                );
+
+                let rowsAffected = await this.database.delete(this.user);
+                if(rowsAffected == 0) res.status(500).send("Cannot complete your request. Try again.");
+                return res.send(rowsAffected.toString() + " rows affected.")
+
             } catch (error) {
                 console.log("An error ocurred trying to delete the user.");
                 console.log(error);

@@ -65,7 +65,7 @@ export default class Database{
                     allowNull: true
                 },
                 salario: {
-                    type: DataTypes.STRING,
+                    type: DataTypes.FLOAT,
                     allowNull: true
                 },
                 especie: {
@@ -246,6 +246,134 @@ export default class Database{
             console.log(error);
             return null;
         }
+    }
+
+    async totalByGender(){
+        let answer = {
+            rows: 0,
+            genders: {}
+        };
+
+        try {
+            let allRows = await this.getTotalRows();
+            answer.rows = allRows;
+        } catch (error) {
+            console.log("Error getting the total rows.");    
+            console.log(error);
+            return answer;
+        }
+
+        try {
+            let genderTotal = await this.model.findAll(
+                {
+                    "attributes": [
+                        "sexo",
+                        [
+                            this.sequelize.fn("sum", this.sequelize.col("salario")), "salario"
+                        ]
+                    ],
+                    "group": ["sexo"],
+                    order: this.sequelize.literal("sexo DESC")
+                }
+            );
+            answer.genders = genderTotal;
+        } catch (error) {
+            console.log("Error getting the sum.");    
+            console.log(error);
+        }
+
+
+        
+        return answer;
+    }
+
+    async totalByCity(){
+
+        let answer = {
+            rows: 0,
+            cities: {}
+        };
+
+        try {
+            let allRows = await this.getTotalRows();
+            answer.rows = allRows;
+        } catch (error) {
+            console.log("Error getting the total rows.");    
+            console.log(error);
+            return answer;
+        }
+
+        try {
+
+            let citiesTotal = await this.model.findAll({
+                "attributes": [
+                    "cidade",
+                    [
+                        this.sequelize.fn("sum", this.sequelize.col("salario")), "salario"
+                    ]
+                ],
+                group: ["cidade"],
+                order: this.sequelize.literal("cidade DESC")
+            });
+
+            console.log(citiesTotal);
+    
+            answer.cities = citiesTotal;
+
+        } catch (error) {
+            console.log("Error getting the total rows.");    
+            console.log(error);
+        }
+
+
+        return answer;
+
+    }
+
+    async totalBySpecies(){
+        
+        let answer = {
+            rows: 0,
+            species: {}
+        };
+
+        try {
+            let allRows = await this.getTotalRows();
+            answer.rows = allRows;
+        } catch (error) {
+            console.log("Error getting the total rows.");    
+            console.log(error);
+            return answer;
+        }
+
+        try {
+
+            let speciesTotal = await this.model.findAll({
+                "attributes": [
+                    "especie",
+                    [
+                        this.sequelize.fn("sum", this.sequelize.col("salario")), "salario"
+                    ]
+                ],
+                group: ["especie"],
+                order: this.sequelize.literal("especie DESC")
+            });
+
+            console.log(speciesTotal);
+    
+            answer.species = speciesTotal;
+        } catch (error) {
+            console.log("Error getting the total rows.");    
+            console.log(error);
+        }
+                
+        return answer;
+    }
+
+    async getTotalRows(){
+        let allRows = await this.model.findAll();
+        let records = allRows.length;
+        return records;
     }
 
 }
