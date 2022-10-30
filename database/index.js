@@ -149,13 +149,40 @@ export default class Database{
 
     async getInstance(usuario){
         try {
-            return await this.model.findOne({where: {
+            
+            const returnedUser =  await this.model.findOne({where: {
                 nome: usuario.nome,
                 cpf: usuario.cpf,
                 rg: usuario.rg
             }});
+            return returnedUser;
         } catch (error) {
             console.log("An error ocurred getting the user");
+            console.log(error);
+            return null;
+        }
+    }
+
+    async update(usuario){
+        try {
+            const affectedRows = await this.model.update(
+                {
+                    pai: usuario.pai,
+                    mae: usuario.mae
+                },
+                {
+                    where: {
+                        nome: usuario.nome,
+                        cpf: usuario.cpf,
+                        rg: usuario.rg
+                    }
+                }
+            );
+            console.log("Affected Rows:");
+            console.log(affectedRows);
+            return affectedRows;
+        } catch (error) {
+            console.log("An error ocurred updating the user.");
             console.log(error);
             return null;
         }

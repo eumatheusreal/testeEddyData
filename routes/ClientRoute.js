@@ -132,11 +132,20 @@ export default class ClientRoute{
             if (this.connectDatabase() == null) return res.status(500).send("Cannot complete your request. Try again later.")
 
             try {
-                let savedUser = await this.database.getInstance(this.user);
+                // let savedUser = await this.database.getInstance(this.user);
+                
+                // if (savedUser == null) return res.status(500).send("Cannot complete your request. Try again later.") 
+                
+                // let userJson = savedUser.toJSON();
+                // if (userJson == null) return res.status(500).send("Cannot complete your request. Try again later.") 
 
-                if (savedUser == null) return res.status(500).send("Cannot complete your request. Try again later.") 
+                // console.log(userJson);
 
-                return savedUser;
+                let updatedRows = await this.database.update(this.user);
+                
+                if (updatedRows.toString() === "0") return res.status(500).send("Cannot complete your request. Try again later.") 
+
+                return res.send(updatedRows.toString() + " rows update successfully.");
                 
             } catch (error) {
                 console.log("Error saving the user. Try again later.");
