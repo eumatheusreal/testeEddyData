@@ -46,7 +46,7 @@
 	- Data de nascimento
 
 ## Exemplo de request
-
+```
 {
 	"nome": "TESTE",
 	"cpf": "215.192.776-87",
@@ -69,6 +69,7 @@
 	"cidade": "FRANCA",
 	"datadenascimento": "09/08/1953"
 }
+```
 
 ## Métodos de busca
 	
