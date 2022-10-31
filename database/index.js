@@ -376,4 +376,8 @@ export default class Database{
         return records;
     }
 
+    async getAllRows(){
+        return await this.model.findAll();
+    }
+
 }
