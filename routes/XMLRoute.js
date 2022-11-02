@@ -25,10 +25,10 @@ export default class XMLRoute{
 
                 if (returnedRows == null) return res.status(500).send("Cannot complete your request. Try again later.")
 
-                let xml = this.fileUtil.parseJson(returnedRows);
+                // let xml = this.fileUtil.parseJson(returnedRows);
 
-                console.log(xml);
-                return res.send(xml);
+                console.log(returnedRows);
+                return res.send(returnedRows);
             } catch (error) {
                 
             }
