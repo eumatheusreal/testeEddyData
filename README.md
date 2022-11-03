@@ -74,6 +74,7 @@
 ## Métodos de busca
 	
 	- URL: http://localhost:3000/find
+	- Método: POST
 	- Busca por ID
 		- URL: /id
 		- Corpo da requisição: id
@@ -90,6 +91,7 @@
 ## Totalizadores
 	
 	- URL: http://localhost:3000/find
+	- Método: POST
 	- Totalizador por gênero
 		- Corpo da requisição: {"method": "gender"}
 	- Totalizador por cidade
@@ -100,6 +102,7 @@
 ## Exportar para XML / Importar de XML
 
 	- URL: http://localhost:3000/xml
+	- Método: GET
 	- Importar
 		- URL: /import
 		- Local do arquivo: public/clientes.xml
@@ -110,7 +113,7 @@
 ## Observações gerais
 	- Todos os métodos devem ser enviados como JSON
 	- Todos os métodos devem ser enviados com o cabeçalho (Content-Type: application/json)
-
+	- O CORS está habilitado para funcionar com o frontend desenvolvido
 ## Contatos:
 
 	- Telefone (WhatsApp): (37) 9-9943-5990
