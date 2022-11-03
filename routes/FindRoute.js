@@ -16,7 +16,7 @@ export default class FindRoute{
     }
 
     async findById(){
-        this.app.get("/find/id", async (req, res) => {
+        this.app.post("/find/id", async (req, res) => {
             
             const id = req.body.id;
 
@@ -44,7 +44,7 @@ export default class FindRoute{
     }
 
     async findByGender(){
-        this.app.get("/find/gender", async (req, res) => {
+        this.app.post("/find/gender", async (req, res) => {
             const gender = req.body.gender;
 
             try {
@@ -70,7 +70,7 @@ export default class FindRoute{
     }
 
     async findByBirthday(){
-        this.app.get("/find/birthday", async (req, res) => {
+        this.app.post("/find/birthday", async (req, res) => {
             const {initDate, finalDate} = req.body;
             
             try {
@@ -92,7 +92,7 @@ export default class FindRoute{
     }
 
     async find(){
-        this.app.get("/find", async (req, res) => {
+        this.app.post("/find", async (req, res) => {
             
             const method = req.body.method;
 
